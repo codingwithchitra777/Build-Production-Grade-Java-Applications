@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot: The Complete Guide</title> 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        spring: '#6db33f',
+                        teal: '#2dd4bf',
+                        amber: '#fbbf24',
+                        purple: '#a855f7',
+                        sky: '#38bdf8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .code-keyword { color: #c084fc; }
+        .code-string { color: #a3e635; }
+        .code-function { color: #60a5fa; }
+        .code-annotation { color: #fcd34d; }
+        .code-comment { color: #64748b; font-style: italic; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300 antialiased selection:bg-spring selection:text-slate-900">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fa-brands fa-java text-3xl text-slate-400"></i>
+                    <span class="text-xl font-bold text-white">Spring Boot <span class="text-spring">Masterclass</span></span>
+                </div>
+                <div class="hidden md:flex gap-6 text-sm font-medium">
+                    <a href="#basics" class="hover:text-spring transition">Basics</a>
+                    <a href="#data" class="hover:text-teal transition">Data</a>
+                    <a href="#validation" class="hover:text-amber transition">Validation</a>
+                    <a href="#testing" class="hover:text-purple transition">Testing</a>
+                    <a href="#deployment" class="hover:text-sky transition">Deployment</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 flex gap-12">
+        
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="hidden lg:block w-64 shrink-0 fixed h-[calc(100vh-6rem)] overflow-y-auto border-r border-slate-800 pr-6">
+            <div class="space-y-8">
+                <div>
+                    <h3 class="font-bold text-white mb-3 uppercase tracking-wider text-xs">Contents</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#intro" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-spring pl-3 transition">Introduction</a></li>
+                        <li><a href="#basics" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-spring pl-3 transition">1. The Basics</a></li>
+                        <li><a href="#data" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-teal pl-3 transition">2. Database & JPA</a></li>
+                        <li><a href="#validation" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-amber pl-3 transition">3. Robust APIs</a></li>
+                        <li><a href="#testing" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-purple pl-3 transition">4. Testing Strategy</a></li>
+                        <li><a href="#deployment" class="block text-slate-400 hover:text-white border-l-2 border-transparent hover:border-sky pl-3 transition">5. Deployment</a></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                    <p class="text-xs text-slate-400 mb-2">Resources</p>
+                    <a href="https://start.spring.io" target="_blank" class="flex items-center gap-2 text-spring hover:underline text-sm font-bold">
+                        <i class="fa-solid fa-external-link-alt"></i> start.spring.io
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:pl-72 w-full space-y-24">
+
+            <!-- Hero Section -->
+            <section id="intro" class="space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-spring/10 text-spring text-sm font-medium border border-spring/20">
+                    <span class="w-2 h-2 rounded-full bg-spring animate-pulse"></span>
+                    Full Course Updated for Spring Boot 3
+                </div>
+                <h1 class="text-5xl sm:text-6xl font-extrabold text-white tracking-tight">
+                    Build Production-Grade <br>
+                    <span class="bg-gradient-to-r from-spring to-teal-400 bg-clip-text text-transparent">Java Applications</span>
+                </h1>
+                <p class="text-xl text-slate-400 max-w-2xl leading-relaxed">
+                    A comprehensive guide taking you from "Hello World" to a Dockerized, database-backed API with proper validation and testing.
+                </p>
+                <div class="flex gap-4 pt-4">
+                    <a href="#basics" class="px-6 py-3 bg-spring hover:bg-green-600 text-slate-900 font-bold rounded-lg transition">Start Learning</a>
+                    <a href="https://github.com" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg transition border border-slate-700">View Code</a>
+                </div>
+            </section>
+
+            <!-- PART 1: BASICS -->
+            <section id="basics" class="scroll-mt-24">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-spring/20 flex items-center justify-center text-spring text-2xl">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Part 1: The Basics</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-xl font-bold text-white mb-4">Why Spring Boot?</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-spring mt-1"></i>
+                                <span><strong>Opinionated:</strong> Auto-configuration reduces setup time by 90%.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-spring mt-1"></i>
+                                <span><strong>Standalone:</strong> Embedded Tomcat server means no WAR deployment.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-spring mt-1"></i>
+                                <span><strong>Production Ready:</strong> Metrics and health checks built-in.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <h3 class="text-xl font-bold text-white mb-4">Key Annotations</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <code class="text-spring font-mono bg-slate-900 px-2 py-1 rounded">@SpringBootApplication</code>
+                                <p class="text-sm text-slate-400 mt-1">Triggers auto-configuration and component scanning.</p>
+                            </div>
+                            <div>
+                                <code class="text-spring font-mono bg-slate-900 px-2 py-1 rounded">@RestController</code>
+                                <p class="text-sm text-slate-400 mt-1">Marks a class as a web handler returning JSON.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-4">Your First Controller</h3>
+                <div class="bg-slate-950 rounded-xl border border-slate-800 overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-2 bg-slate-900 border-b border-slate-800">
+                        <span class="text-xs text-slate-400 font-mono">HelloController.java</span>
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500/20"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/20"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                        </div>
+                    </div>
+                    <pre class="p-4 overflow-x-auto text-sm font-mono text-slate-300">
+<span class="code-keyword">package</span> com.example.demo;
+
+<span class="code-keyword">import</span> org.springframework.web.bind.annotation.*;
+
+<span class="code-annotation">@RestController</span>
+<span class="code-keyword">public class</span> HelloController {
+
+    <span class="code-annotation">@GetMapping</span>(<span class="code-string">"/hello"</span>)
+    <span class="code-keyword">public</span> String sayHello() {
+        <span class="code-keyword">return</span> <span class="code-string">"Hello, Spring Boot!"</span>;
+    }
+}</pre>
+                </div>
+            </section>
+
+            <!-- PART 2: DATA -->
+            <section id="data" class="scroll-mt-24 pt-8 border-t border-slate-800">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-teal/20 flex items-center justify-center text-teal text-2xl">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Part 2: Database & JPA</h2>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-xl font-bold text-white mb-6">The 3-Layer Architecture</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+                        <div class="flex-1 p-6 bg-slate-800 rounded-lg border border-teal/30 w-full">
+                            <i class="fa-solid fa-globe text-teal mb-3 text-2xl"></i>
+                            <h4 class="font-bold text-white">Controller</h4>
+                            <p class="text-xs text-slate-400">HTTP Requests</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-down md:fa-arrow-right text-slate-600"></i>
+                        <div class="flex-1 p-6 bg-slate-800 rounded-lg border border-teal/30 w-full">
+                            <i class="fa-solid fa-gears text-teal mb-3 text-2xl"></i>
+                            <h4 class="font-bold text-white">Service</h4>
+                            <p class="text-xs text-slate-400">Business Logic</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-down md:fa-arrow-right text-slate-600"></i>
+                        <div class="flex-1 p-6 bg-slate-800 rounded-lg border border-teal/30 w-full">
+                            <i class="fa-solid fa-hard-drive text-teal mb-3 text-2xl"></i>
+                            <h4 class="font-bold text-white">Repository</h4>
+                            <p class="text-xs text-slate-400">Data Access</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Entity Code -->
+                    <div>
+                        <p class="text-sm font-bold text-teal mb-2">1. The Entity</p>
+                        <div class="bg-slate-950 rounded-xl border border-slate-800 p-4 text-sm font-mono overflow-x-auto">
+<pre><span class="code-annotation">@Entity</span>
+<span class="code-keyword">public class</span> Product {
+    <span class="code-annotation">@Id</span>
+    <span class="code-annotation">@GeneratedValue</span>
+    <span class="code-keyword">private</span> Long id;
+    <span class="code-keyword">private</span> String name;
+    <span class="code-keyword">private</span> Double price;
+    <span class="code-comment">// getters & setters</span>
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Repo Code -->
+                    <div>
+                        <p class="text-sm font-bold text-teal mb-2">2. The Repository</p>
+                        <div class="bg-slate-950 rounded-xl border border-slate-800 p-4 text-sm font-mono overflow-x-auto">
+<pre><span class="code-keyword">public interface</span> ProductRepository 
+    <span class="code-keyword">extends</span> JpaRepository&lt;Product, Long&gt; {
+    
+    <span class="code-comment">// Magic method generation</span>
+    List&lt;Product&gt; findByPriceLessThan(Double p);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PART 3: VALIDATION -->
+            <section id="validation" class="scroll-mt-24 pt-8 border-t border-slate-800">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-amber/20 flex items-center justify-center text-amber text-2xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Part 3: Validation & DTOs</h2>
+                </div>
+
+                <div class="bg-amber-500/10 border border-amber-500/20 p-6 rounded-xl mb-8">
+                    <h3 class="text-amber font-bold text-lg mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>The Security Risk</h3>
+                    <p class="text-slate-300">Exposing your Database Entities directly to the API is dangerous. Users could send massive payloads or overwrite protected fields. Always use <strong>Data Transfer Objects (DTOs)</strong>.</p>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-4">Request DTO with Validation</h3>
+                <div class="bg-slate-950 rounded-xl border border-slate-800 p-4 text-sm font-mono mb-6 overflow-x-auto">
+<pre><span class="code-keyword">public class</span> ProductRequestDTO {
+    
+    <span class="code-annotation">@NotBlank</span>(message = <span class="code-string">"Name required"</span>)
+    <span class="code-keyword">private</span> String name;
+
+    <span class="code-annotation">@NotNull</span>
+    <span class="code-annotation">@Min</span>(value = 0)
+    <span class="code-keyword">private</span> Double price;
+}</pre>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-4">Global Exception Handling</h3>
+                <p class="text-slate-400 mb-4">Intercepts errors to return clean JSON instead of stack traces.</p>
+                <div class="bg-slate-950 rounded-xl border border-slate-800 p-4 text-sm font-mono overflow-x-auto">
+<pre><span class="code-annotation">@RestControllerAdvice</span>
+<span class="code-keyword">public class</span> GlobalExceptionHandler {
+
+    <span class="code-annotation">@ExceptionHandler</span>(MethodArgumentNotValidException.<span class="code-keyword">class</span>)
+    <span class="code-keyword">public</span> ResponseEntity&lt;Map&gt; handleErrors(Exception ex) {
+        <span class="code-comment">// Return pretty JSON error map</span>
+        <span class="code-keyword">return</span> ResponseEntity.badRequest().body(errors);
+    }
+}</pre>
+                </div>
+            </section>
+
+            <!-- PART 4: TESTING -->
+            <section id="testing" class="scroll-mt-24 pt-8 border-t border-slate-800">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-purple/20 flex items-center justify-center text-purple text-2xl">
+                        <i class="fa-solid fa-vial-circle-check"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Part 4: Testing Strategy</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-10 text-center">
+                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
+                        <div class="text-purple font-bold text-lg mb-2">Unit Tests</div>
+                        <p class="text-sm text-slate-400">Test single classes in isolation. Fast & numerous.</p>
+                    </div>
+                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
+                        <div class="text-purple/80 font-bold text-lg mb-2">Integration</div>
+                        <p class="text-sm text-slate-400">Test interaction between Controller & DB.</p>
+                    </div>
+                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
+                        <div class="text-purple/60 font-bold text-lg mb-2">E2E</div>
+                        <p class="text-sm text-slate-400">Full browser simulation. Slowest.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mb-4">Unit Test with Mockito</h3>
+                <div class="bg-slate-950 rounded-xl border border-slate-800 p-4 text-sm font-mono overflow-x-auto">
+<pre><span class="code-annotation">@ExtendWith</span>(MockitoExtension.class)
+<span class="code-keyword">class</span> ProductServiceTest {
+
+    <span class="code-annotation">@Mock</span> <span class="code-keyword">private</span> ProductRepository repo;
+    <span class="code-annotation">@InjectMocks</span> <span class="code-keyword">private</span> ProductService service;
+
+    <span class="code-annotation">@Test</span>
+    <span class="code-keyword">void</span> shouldSave() {
+        Product p = <span class="code-keyword">new</span> Product(<span class="code-string">"Laptop"</span>);
+        given(repo.save(p)).willReturn(p); <span class="code-comment">// Train mock</span>
+        
+        service.create(p);
+        
+        verify(repo).save(p); <span class="code-comment">// Verify interaction</span>
+    }
+}</pre>
+                </div>
+            </section>
+
+            <!-- PART 5: DEPLOYMENT -->
+            <section id="deployment" class="scroll-mt-24 pt-8 border-t border-slate-800">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-sky/20 flex items-center justify-center text-sky text-2xl">
+                        <i class="fa-brands fa-docker"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white">Part 5: Deployment</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4">The Executable JAR</h3>
+                        <p class="text-slate-400 mb-4">Spring Boot builds a single "Uber JAR" containing your code + dependencies + embedded Tomcat.</p>
+                        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 font-mono text-sm">
+                            <div class="text-slate-500 select-none"># Build</div>
+                            <div class="text-sky">./mvnw clean package</div>
+                            <div class="text-slate-500 mt-3 select-none"># Run</div>
+                            <div class="text-sky">java -jar target/app.jar</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4">Dockerize It</h3>
+                        <p class="text-slate-400 mb-4">Ensure it runs everywhere by packaging the OS and Java runtime.</p>
+                        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 font-mono text-sm">
+<pre><span class="code-comment"># Dockerfile</span>
+FROM eclipse-temurin:17-jdk-alpine
+COPY target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="pt-20 pb-10 border-t border-slate-800 text-center">
+                <p class="text-slate-500">
+                    Tutorial Series Complete &bull; <span class="text-slate-400">Built with Spring Boot 3 & Tailwind CSS</span>
+                </p>
+            </footer>
+
+        </main>
+    </div>
+</body>
+</html>
